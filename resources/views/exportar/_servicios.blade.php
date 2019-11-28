@@ -1,6 +1,10 @@
 <table>
     <thead>
         <tr>
+            <th colspan="1"></th>
+            <th colspan="6">Reporte Chedraui</th>
+        </tr>
+        <tr>
             <th>Numero de pedido</th>
             <th>Folio</th>
             <th>Precio</th>
@@ -18,7 +22,7 @@
             <td>{{$servicio->amount}}</td>
             <td>{{$servicio->name_client}}</td>
             <td>{{$servicio->address_client}}</td>
-            <td>{{$servicio->date_register}}</td>
+            <td>{{$servicio->fechaLeible()}}</td>
             <td>{{$servicio->indications}}</td>
         </tr>
         @endforeach

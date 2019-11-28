@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Http\Controllers\Helpers\Fechas;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -31,6 +32,12 @@ class Servicio extends Model
         }
 
         return $servicios->get();
+    }
+
+    public function fechaLeible()
+    {
+        $fecha = new Fechas;
+        return $fecha->nueva($this->date_register, true);
     }
 
 }
