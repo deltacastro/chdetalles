@@ -11,6 +11,16 @@ class Servicio extends Model
     protected $table = 'services';
     protected $primarykey = 'idservice';
 
+    public function user()
+    {
+        return $this->belongsTo(UserCustom::class, 'iduser_creator', 'iduser');
+    }
+
+    public function chofer()
+    {
+        return $this->belongsTo(Persona::class, 'iduser_driver', 'idpeople');
+    }
+
     public function porFechas($request)
     {
         $fecha_inicio = $request->fecha_inicio;

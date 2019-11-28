@@ -21,17 +21,9 @@ class ServicioExport implements FromView, ShouldAutoSize, WithEvents, WithDrawin
         $this->request = $request;
         $this->mServicio = new Servicio;
         $this->mServicio = $this->mServicio->porFechas($request);
-        $this->totalHeaderRows = 3;
+        $this->totalHeaderRows = 2;
         $this->totalRows = $this->mServicio->count() + $this->totalHeaderRows;
     }
-
-    /**
-    * @return \Illuminate\Support\Collection
-    */
-    // public function collection()
-    // {
-    //     return Servicio::all();
-    // }
 
     public function view(): View
     {
@@ -98,22 +90,14 @@ class ServicioExport implements FromView, ShouldAutoSize, WithEvents, WithDrawin
                 $event->sheet->getDelegate()->getStyle($cellTitle)->getFill()->getStartColor()->setARGB('621132');
                 $event->sheet->getDelegate()->getStyle($cellTitle)->getFont()->getColor()->setARGB('00000');
 
-                // LOGO2
-                // $cellLogo2 = 'F1';
-                // $event->sheet->getDelegate()->getStyle($cellLogo2)->getAlignment()->setHorizontal('center');
-                // $event->sheet->getDelegate()->getStyle($cellLogo2)->getAlignment()->setVertical('center');
-                // $event->sheet->getDelegate()->getStyle($cellLogo2)->getActiveSheet()->getRowDimension('1')->setRowHeight(90);
-                // $event->sheet->getDelegate()->getStyle($cellLogo)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
-                // $event->sheet->getDelegate()->getStyle($cellLogo2)->getFill()->getStartColor()->setARGB('621132');
-
                 // HEADER
-                $cellRange = 'A2:G2'; // All headers
+                $cellRange = 'A2:I2'; // All headers
                 $event->sheet->getDelegate()->getStyle($cellRange)->getFont()->setSize(16);
                 $event->sheet->getDelegate()->getStyle($cellRange)->getAlignment()->setHorizontal('center');
                 $event->sheet->getDelegate()->getStyle($cellRange)->getAlignment()->setVertical('center');
 
                 // BODY
-                $cellBodyrange = "A2:G{$this->totalRows}";
+                $cellBodyrange = "A2:I{$this->totalRows}";
                 $event->sheet->getDelegate()->getStyle($cellBodyrange)->applyFromArray($styleArray);
                 // $event->sheet->getDelegate()->getStyle($cellBodyrange)->getFont()->getColor()->setARGB('FFFFFFFF');
                 $event->sheet->getDelegate()->getStyle($cellBodyrange)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);

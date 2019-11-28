@@ -1,5 +1,8 @@
 <?php
 
+use App\Servicio;
+use App\User;
+use App\UserCustom;
 use Illuminate\Http\Request;
 
 /*
