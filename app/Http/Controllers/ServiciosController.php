@@ -8,8 +8,8 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ServiciosController extends Controller
 {
-    public function exportar()
+    public function exportar(Request $request)
     {
-        return Excel::download(new ServicioExport, 'servicios.xlsx');
+        return Excel::download(new ServicioExport($request), 'servicios.xlsx');
     }
 }

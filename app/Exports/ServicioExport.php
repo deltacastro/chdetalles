@@ -10,6 +10,15 @@ use Maatwebsite\Excel\Concerns\FromView;
 
 class ServicioExport implements ShouldAutoSize, FromView
 {
+    private $request;
+
+    public function __construct($request)
+    {
+        $this->request = $request;
+        $this->mServicio = new Servicio;
+        $this->mServicio = $this->mServicio->porFechas($request);
+    }
+
     /**
     * @return \Illuminate\Support\Collection
     */
@@ -21,7 +30,7 @@ class ServicioExport implements ShouldAutoSize, FromView
     public function view(): View
     {
         return view('exportar._servicios', [
-            'servicios' => Servicio::all()
+            'servicios' => $this->mServicio
         ]);
     }
 }
