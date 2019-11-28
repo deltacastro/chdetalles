@@ -1,0 +1,692 @@
+-- MySQL dump 10.13  Distrib 5.6.45-86.1, for Linux (x86_64)
+--
+-- Host: localhost    Database: tobemx_services
+-- ------------------------------------------------------
+-- Server version	5.6.45-86.1
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `consignations`
+--
+
+DROP TABLE IF EXISTS `consignations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `consignations` (
+  `idconsignation` int(11) NOT NULL AUTO_INCREMENT,
+  `idservices_stage` int(11) NOT NULL,
+  `idstore` int(11) NOT NULL,
+  `name_store` varchar(45) DEFAULT NULL,
+  `status_consignation` varchar(45) DEFAULT NULL,
+  `date_begin_consignation` varchar(45) DEFAULT NULL,
+  `date_end_consignation` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`idconsignation`),
+  KEY `fk_consignation_services_stages1_idx` (`idservices_stage`),
+  CONSTRAINT `fk_consignation_services_stages1` FOREIGN KEY (`idservices_stage`) REFERENCES `services_stages` (`idservices_stage`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `consignations`
+--
+
+LOCK TABLES `consignations` WRITE;
+/*!40000 ALTER TABLE `consignations` DISABLE KEYS */;
+/*!40000 ALTER TABLE `consignations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `consignations_products`
+--
+
+DROP TABLE IF EXISTS `consignations_products`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `consignations_products` (
+  `idconsignation_product` int(11) NOT NULL AUTO_INCREMENT,
+  `idconsignation` int(11) NOT NULL,
+  `idstore` int(11) NOT NULL,
+  `product` text NOT NULL,
+  PRIMARY KEY (`idconsignation_product`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `consignations_products`
+--
+
+LOCK TABLES `consignations_products` WRITE;
+/*!40000 ALTER TABLE `consignations_products` DISABLE KEYS */;
+/*!40000 ALTER TABLE `consignations_products` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `devices`
+--
+
+DROP TABLE IF EXISTS `devices`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `devices` (
+  `iddevice` int(11) NOT NULL AUTO_INCREMENT,
+  `iduser` int(11) NOT NULL,
+  `device_type` varchar(75) DEFAULT NULL,
+  `device_token` text,
+  `device_status` int(11) DEFAULT NULL,
+  PRIMARY KEY (`iddevice`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `devices`
+--
+
+LOCK TABLES `devices` WRITE;
+/*!40000 ALTER TABLE `devices` DISABLE KEYS */;
+INSERT INTO `devices` VALUES (1,3,'android','cLNHsP6czR8:APA91bEzk5v3RrnoiL4sPutw3BQ5wvdiQ7bXDH_f9ibFV9ySiCHJWgU_0pkNpcsfA9QzEdMslDhukoN9s_q1CtY_hpgsP4GYIsj-oxaWgUIfo-3m_aYL0p2KpDFQeSOJKKFLeBbYXwPn',0),(2,2,'android','csczmMpHkyE:APA91bHFMvIgopAekJYNTBmm-sFfD605_Z0Cw3Yeq-NXF3RSE9YsSseQWAi33awFwF9HNGW4AlGAsJHfAFP5T_YAIex7vga7gAcysq_-3NmQ2EJmeJadWz0rKnfgwy0fVaO37uAoEIzY',0),(3,1,'android','',0),(4,4,'android','',0),(5,5,'android','fbE5b-7hL_Q:APA91bGFoYuiDCQFpSqAV1zorx3EAF8199mGL2bg6vACe9DLD2Xor-nW_s_FkSDu_st_I2FvE5dnOX8edeHBqDmcncCTtiOvvV4eU4C50a8_ma59EK2F-CWYmLcZz56WYvrsK45Jg5MG',0),(6,6,'android','',0);
+/*!40000 ALTER TABLE `devices` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `file_incident`
+--
+
+DROP TABLE IF EXISTS `file_incident`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `file_incident` (
+  `idfile_incident` int(11) NOT NULL AUTO_INCREMENT,
+  `idincident_stage` int(11) NOT NULL,
+  `name_file` text,
+  `type_file` text,
+  `ext_file` text,
+  PRIMARY KEY (`idfile_incident`),
+  KEY `fk_file_stage_incidents_stage1_idx` (`idincident_stage`),
+  CONSTRAINT `fk_file_stage_incidents_stage1` FOREIGN KEY (`idincident_stage`) REFERENCES `incidents_stage` (`idincident_stage`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `file_incident`
+--
+
+LOCK TABLES `file_incident` WRITE;
+/*!40000 ALTER TABLE `file_incident` DISABLE KEYS */;
+INSERT INTO `file_incident` VALUES (1,27,'27-incidencias-1.jpg','imagen',NULL);
+/*!40000 ALTER TABLE `file_incident` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `history_actions`
+--
+
+DROP TABLE IF EXISTS `history_actions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `history_actions` (
+  `idhistory_action` int(11) NOT NULL,
+  `iduser` int(11) NOT NULL,
+  `observation_action` text,
+  `date_action` datetime DEFAULT NULL,
+  `type_device` varchar(45) DEFAULT NULL,
+  `type_action` int(11) DEFAULT NULL,
+  `status_action` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `history_actions`
+--
+
+LOCK TABLES `history_actions` WRITE;
+/*!40000 ALTER TABLE `history_actions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `history_actions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `incidents_stage`
+--
+
+DROP TABLE IF EXISTS `incidents_stage`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `incidents_stage` (
+  `idincident_stage` int(11) NOT NULL AUTO_INCREMENT,
+  `idservices_stage` int(11) NOT NULL,
+  `iduser` int(11) NOT NULL,
+  `description_incident` text,
+  `date_incident` datetime DEFAULT NULL,
+  PRIMARY KEY (`idincident_stage`),
+  KEY `fk_indicents_stage_services_stages1_idx` (`idservices_stage`),
+  KEY `fk_indicents_stage_users1_idx` (`iduser`),
+  CONSTRAINT `fk_indicents_stage_services_stages1` FOREIGN KEY (`idservices_stage`) REFERENCES `services_stages` (`idservices_stage`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_indicents_stage_users1` FOREIGN KEY (`iduser`) REFERENCES `users` (`iduser`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `incidents_stage`
+--
+
+LOCK TABLES `incidents_stage` WRITE;
+/*!40000 ALTER TABLE `incidents_stage` DISABLE KEYS */;
+INSERT INTO `incidents_stage` VALUES (25,551,5,'prueba','2019-11-24 22:23:57'),(26,552,5,'prueba incidencia 2','2019-11-24 22:24:30'),(27,616,3,'se perdió el producto porque el chófer choco','2019-11-25 10:56:17');
+/*!40000 ALTER TABLE `incidents_stage` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `notifications`
+--
+
+DROP TABLE IF EXISTS `notifications`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `notifications` (
+  `idnotification` int(11) NOT NULL AUTO_INCREMENT,
+  `notification` varchar(100) NOT NULL,
+  `status_notification` int(11) NOT NULL,
+  PRIMARY KEY (`idnotification`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `notifications`
+--
+
+LOCK TABLES `notifications` WRITE;
+/*!40000 ALTER TABLE `notifications` DISABLE KEYS */;
+/*!40000 ALTER TABLE `notifications` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `peoples`
+--
+
+DROP TABLE IF EXISTS `peoples`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `peoples` (
+  `idpeople` int(11) NOT NULL AUTO_INCREMENT,
+  `name` text,
+  `lastname` text,
+  `fullname` text,
+  `email` text,
+  `phone` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`idpeople`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `peoples`
+--
+
+LOCK TABLES `peoples` WRITE;
+/*!40000 ALTER TABLE `peoples` DISABLE KEYS */;
+INSERT INTO `peoples` VALUES (1,'Agencia','Tobe','Agencia Tobe','prueba@gmail.com','9900000000'),(2,'Adolfo','Chofer','Adolfo Chofer','prueba@hotmail.com','9900000000'),(3,'Empleado','Chedraui','Empleado Chedraui','chedraui@chedraui.com','9900000000'),(4,'Sergio','Chofer','Sergio Chofer','prueba@tobe.mx','9900000000'),(5,'empleado2','chedraui','empleado chedraui','prueba@gmail.com','999999999'),(6,'julio','chofer','julio chofer','prueba@gmail.com','999999999');
+/*!40000 ALTER TABLE `peoples` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `permissions`
+--
+
+DROP TABLE IF EXISTS `permissions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `permissions` (
+  `idpermission` int(11) NOT NULL AUTO_INCREMENT,
+  `permission` varchar(100) NOT NULL,
+  `status_permission` int(11) NOT NULL,
+  PRIMARY KEY (`idpermission`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `permissions`
+--
+
+LOCK TABLES `permissions` WRITE;
+/*!40000 ALTER TABLE `permissions` DISABLE KEYS */;
+INSERT INTO `permissions` VALUES (1,'Agregar servicio',1),(2,'Cambiar estatus del servicio',1),(3,'Logout de aplicación',1);
+/*!40000 ALTER TABLE `permissions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `rols`
+--
+
+DROP TABLE IF EXISTS `rols`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `rols` (
+  `idrol` int(11) NOT NULL AUTO_INCREMENT,
+  `rol_name` text,
+  PRIMARY KEY (`idrol`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `rols`
+--
+
+LOCK TABLES `rols` WRITE;
+/*!40000 ALTER TABLE `rols` DISABLE KEYS */;
+INSERT INTO `rols` VALUES (1,'Admin'),(2,'Empleado Chedraui'),(3,'Chofer');
+/*!40000 ALTER TABLE `rols` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `services`
+--
+
+DROP TABLE IF EXISTS `services`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `services` (
+  `idservice` int(11) NOT NULL AUTO_INCREMENT,
+  `iduser_creator` int(11) NOT NULL,
+  `iduser_driver` int(11) DEFAULT NULL,
+  `folio` varchar(300) DEFAULT NULL,
+  `amount` double NOT NULL,
+  `idtype_payment` int(11) DEFAULT NULL,
+  `idtype_service` int(11) DEFAULT NULL,
+  `name_client` text,
+  `address_client` text,
+  `phone_client` varchar(50) DEFAULT NULL,
+  `email_client` varchar(50) DEFAULT NULL,
+  `reference` text,
+  `status_service` int(11) DEFAULT NULL,
+  `date_register` datetime NOT NULL,
+  `date_close` datetime NOT NULL,
+  `indications` text,
+  `latitude_address` double DEFAULT NULL,
+  `longitude_address` double DEFAULT NULL,
+  `number_pedido` text,
+  PRIMARY KEY (`idservice`),
+  KEY `fk_services_users1_idx` (`iduser_creator`),
+  CONSTRAINT `fk_services_users1` FOREIGN KEY (`iduser_creator`) REFERENCES `users` (`iduser`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `services`
+--
+
+LOCK TABLES `services` WRITE;
+/*!40000 ALTER TABLE `services` DISABLE KEYS */;
+INSERT INTO `services` VALUES (50,5,2,'SD-000001',325,1,1,'Jonathan','El Espejo II, Villahermosa, Tab., Mexico','9931570586','','casa dos pisos',3,'2019-11-24 17:24:06','2019-11-24 17:27:17','casa blanca',17.9974215,-92.9563113,'0001'),(51,5,2,'SD-000002',100,1,1,'Prueba','Río Tacotalpa 308, El Espejo II, 86109 Villahermosa, Tab., Mexico','1234567890','','casa dos pisos',3,'2019-11-24 22:22:53','2019-11-25 09:18:54','ok',17.9997541,-92.9582294,'0002'),(52,3,2,'SD-000003',1235,1,1,'Jonathan Francisco Orlaineta','Río Nuevo 104, Cuadrante II, Jose Colomo, 86100 Villahermosa, Tab., Mexico','123456789','','dos pisos',3,'2019-11-25 09:45:33','2019-11-25 11:57:31','casa negra',17.9875457,-92.9449591,'0003'),(53,5,2,'SD-000004',500,2,1,'Antonio Luna','Calle 5 141, Bonanza, 86030 Villahermosa, Tab., Mexico','9933858534','','enfrente De escuela de manejo',3,'2019-11-25 09:50:19','2019-11-25 11:54:36','casa Blanca',18.0034967,-92.9377007,'15443478'),(54,5,0,'SD-000005',100,1,1,'Carlos Ramos','Av Paseo Tabasco, Jesus Garcia, Villahermosa, Tab., Mexico','9933858542','','a lado de la purificadora',1,'2019-11-25 10:11:38','0000-00-00 00:00:00','estará de 8 a 10',17.9934633,-92.9349677,'14426780'),(55,5,2,'SD-000006',100,1,1,'Juan Pérez','Calle 5, Bonanza, 86030 Villahermosa, Tab., Mexico','9933802344','','a lado de la iglesia',3,'2019-11-25 10:21:55','2019-11-25 11:34:17','va pagar con 500',18.0037412,-92.9384962,'158889945'),(56,3,4,'SD-000007',31615,1,1,'Jdjdjd','Río Tuxpan, El Espejo II, 86109 Villahermosa, Tab., Mexico','31254680','','casa dos pisos',3,'2019-11-25 10:48:18','2019-11-25 10:54:22','ndjdjd',17.996064,-92.9565499,'0009'),(57,3,4,'SD-000008',1239.8,1,2,'Cliente Nuevo','Río Grijalva 125, Casa Blanca 1ra Secc, 86060 Villahermosa, Tab., Mexico','9931256454','','casa de dos pisos',3,'2019-11-25 11:13:26','2019-11-25 11:19:45','casa azul',17.9987585,-92.9129457,'00010'),(58,5,2,'SD-000009',1280,1,1,'Antonio Luna','calle río nuevo 104  atasta','9935618023','','esta a un costado de tienda carlos',3,'2019-11-25 11:40:00','2019-11-25 11:45:17','paga con 1,500',0,0,'1678932'),(59,5,2,'SD-000010',1500,3,1,'Toño','Río Pichucalco, Parrilla 1ra. Secc., Parrilla, 86284 Parrilla, Tab., Mexico','9933858534','','fracción. casa para todos',3,'2019-11-25 11:48:17','2019-11-25 12:12:58','entrando por la pepsi',17.9048672,-92.9208036,'13562389'),(60,3,2,'SD-000011',1235,1,1,'Prueba Olmeca','Río Tacotalpa 308, El Espejo II, 86109 Villahermosa, Tab., Mexico','111111','','casa dos pisos',3,'2019-11-25 12:07:09','2019-11-25 12:10:24','hdjdh',17.9997541,-92.9582294,'000011'),(61,3,2,'SD-000012',1200,2,1,'Jonathan','Río Tacotalpa 308, El Espejo II, 86109 Villahermosa, Tab., Mexico','1354288','','casa dos pisos',3,'2019-11-25 12:16:14','2019-11-25 14:46:57','casa dos pisos',17.9997541,-92.9582294,'pedido seguimiento'),(62,5,2,'SD-000013',1250,1,1,'Juan Perez','río nuevo atasta','9933542132','','a lado de la iglesia',1,'2019-11-25 13:31:36','0000-00-00 00:00:00','paga 1000',0,0,'13 minutos 567'),(63,3,0,'SD-000014',1258,1,1,'Prueba','Río Concordia, El Espejo II, 86109 Villahermosa, Tab., Mexico','1234568790','','ninguna',1,'2019-11-27 13:14:28','0000-00-00 00:00:00','no hay',17.9989329,-92.9572974,'000014');
+/*!40000 ALTER TABLE `services` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `services_file`
+--
+
+DROP TABLE IF EXISTS `services_file`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `services_file` (
+  `idservice_file` int(11) NOT NULL AUTO_INCREMENT,
+  `idservices_stage` int(11) NOT NULL,
+  `service_file` varchar(100) NOT NULL,
+  `ext` varchar(50) NOT NULL,
+  `type_file` varchar(100) NOT NULL,
+  PRIMARY KEY (`idservice_file`)
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `services_file`
+--
+
+LOCK TABLES `services_file` WRITE;
+/*!40000 ALTER TABLE `services_file` DISABLE KEYS */;
+INSERT INTO `services_file` VALUES (1,548,'548-evidence-1.jpg','jpg','imagen'),(2,559,'559-evidence-1.jpg','jpg','imagen'),(3,606,'606-evidence-1.jpg','jpg','imagen'),(4,614,'614-evidence-1.jpg','jpg','imagen'),(5,617,'617-evidence-1.jpg','jpg','imagen'),(6,625,'625-evidence-1.jpg','jpg','imagen'),(7,603,'603-evidence-1.jpg','jpg','imagen'),(8,604,'604-evidence-1.jpg','jpg','imagen'),(9,628,'628-evidence-1.jpg','jpg','imagen'),(10,636,'636-evidence-1.jpg','jpg','imagen'),(11,639,'639-evidence-1.jpg','jpg','imagen'),(12,582,'582-evidence-1.jpg','jpg','imagen'),(13,570,'570-evidence-1.jpg','jpg','imagen'),(14,650,'650-evidence-1.jpg','jpg','imagen'),(15,658,'658-evidence-1.jpg','jpg','imagen'),(16,647,'647-evidence-1.jpg','jpg','imagen'),(17,661,'661-evidence-1.jpg','jpg','imagen'),(18,672,'672-evidence-1.jpg','jpg','imagen'),(19,683,'683-evidence-1.jpg','jpg','imagen');
+/*!40000 ALTER TABLE `services_file` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `services_stages`
+--
+
+DROP TABLE IF EXISTS `services_stages`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `services_stages` (
+  `idservices_stage` int(11) NOT NULL AUTO_INCREMENT,
+  `idservice` int(11) NOT NULL,
+  `idstage` int(11) NOT NULL,
+  `status_stage` int(11) DEFAULT NULL,
+  `date_begin` datetime DEFAULT NULL,
+  `date_end` datetime DEFAULT NULL,
+  `latitude` float(10,6) DEFAULT NULL,
+  `longitude` float(10,6) DEFAULT NULL,
+  PRIMARY KEY (`idservices_stage`),
+  KEY `fk_services_stages_idstages1_idx` (`idstage`),
+  KEY `fk_services_stages_services1_idx` (`idservice`),
+  CONSTRAINT `fk_services_stages_idstages1` FOREIGN KEY (`idstage`) REFERENCES `stages` (`idstage`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_services_stages_services1` FOREIGN KEY (`idservice`) REFERENCES `services` (`idservice`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=694 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `services_stages`
+--
+
+LOCK TABLES `services_stages` WRITE;
+/*!40000 ALTER TABLE `services_stages` DISABLE KEYS */;
+INSERT INTO `services_stages` VALUES (540,50,1,2,'2019-11-24 17:24:06','2019-11-24 17:24:20',0.000000,0.000000),(541,50,2,2,'2019-11-24 17:24:20','2019-11-24 17:24:38',17.912394,-92.904861),(542,50,3,2,'2019-11-24 17:24:38','2019-11-24 17:24:49',17.912394,-92.904861),(543,50,4,2,'2019-11-24 17:24:49','2019-11-24 17:24:57',17.999739,-92.958206),(544,50,5,2,'2019-11-24 17:24:57','2019-11-24 17:25:10',17.999763,-92.958221),(545,50,6,2,'2019-11-24 17:25:10','2019-11-24 17:25:15',17.912394,-92.904861),(546,50,7,2,'2019-11-24 17:25:15','2019-11-24 17:25:20',17.999767,-92.958237),(547,50,8,2,'2019-11-24 17:25:20','2019-11-24 17:25:58',17.999739,-92.958206),(548,50,9,2,'2019-11-24 17:25:58','2019-11-24 17:27:17',17.999763,-92.958206),(549,50,10,2,'2019-11-24 17:27:17','2019-11-24 17:27:24',17.999739,-92.958206),(550,50,11,1,'2019-11-24 17:27:24','0000-00-00 00:00:00',17.999762,-92.958221),(551,51,1,2,'2019-11-24 22:22:53','2019-11-24 22:24:13',0.000000,0.000000),(552,51,2,2,'2019-11-24 22:24:13','2019-11-24 22:24:57',17.999769,-92.958237),(553,51,3,2,'2019-11-24 22:24:57','2019-11-25 09:15:01',17.999769,-92.958237),(554,51,4,2,'2019-11-25 09:15:01','2019-11-25 09:15:08',17.987429,-92.945030),(555,51,5,2,'2019-11-25 09:15:08','2019-11-25 09:17:34',17.987429,-92.945030),(556,51,6,2,'2019-11-25 09:17:34','2019-11-25 09:17:47',17.987429,-92.945030),(557,51,7,2,'2019-11-25 09:17:47','2019-11-25 09:18:06',17.987431,-92.945030),(558,51,8,2,'2019-11-25 09:18:06','2019-11-25 09:18:42',17.987429,-92.945030),(559,51,9,2,'2019-11-25 09:18:42','2019-11-25 09:18:54',17.987429,-92.945030),(560,51,10,2,'2019-11-25 09:18:54','2019-11-25 09:19:19',17.987429,-92.945030),(561,51,11,1,'2019-11-25 09:19:19','0000-00-00 00:00:00',17.987429,-92.945030),(562,52,1,2,'2019-11-25 09:45:33','2019-11-25 09:46:33',0.000000,0.000000),(563,52,2,2,'2019-11-25 09:46:33','2019-11-25 09:46:42',17.987429,-92.945030),(564,52,3,2,'2019-11-25 09:46:42','2019-11-25 09:51:05',17.987429,-92.945030),(565,52,4,2,'2019-11-25 09:51:05','2019-11-25 10:03:48',20.587233,-100.399048),(566,52,5,2,'2019-11-25 10:03:48','2019-11-25 10:04:30',20.585657,-100.399925),(567,52,6,2,'2019-11-25 10:04:30','2019-11-25 10:04:34',17.987429,-92.945030),(568,52,7,2,'2019-11-25 10:04:34','2019-11-25 10:15:05',20.585560,-100.400154),(569,52,8,2,'2019-11-25 10:15:05','2019-11-25 11:57:26',20.585358,-100.399986),(570,52,9,2,'2019-11-25 11:57:26','2019-11-25 11:57:31',20.658899,-100.432327),(571,52,10,2,'2019-11-25 11:57:31','2019-11-25 11:57:40',20.661556,-100.432640),(572,52,11,1,'2019-11-25 11:57:40','0000-00-00 00:00:00',20.663029,-100.432785),(573,53,1,2,'2019-11-25 09:50:19','2019-11-25 11:49:15',0.000000,0.000000),(574,53,2,2,'2019-11-25 11:49:15','2019-11-25 11:49:31',20.606968,-100.418236),(575,53,3,2,'2019-11-25 11:49:31','2019-11-25 11:50:42',20.607780,-100.418480),(576,53,4,2,'2019-11-25 11:50:42','2019-11-25 11:50:51',20.609114,-100.418839),(577,53,5,2,'2019-11-25 11:50:51','2019-11-25 11:52:00',20.609270,-100.418900),(578,53,6,2,'2019-11-25 11:52:00','2019-11-25 11:53:46',20.610687,-100.419319),(579,53,7,2,'2019-11-25 11:53:46','2019-11-25 11:53:55',20.620289,-100.422050),(580,53,8,2,'2019-11-25 11:53:55','2019-11-25 11:54:14',20.621101,-100.422272),(581,53,9,2,'2019-11-25 11:54:14','2019-11-25 11:54:36',20.622334,-100.422668),(582,53,10,2,'2019-11-25 11:54:36','2019-11-25 11:54:44',20.626183,-100.424248),(583,53,11,1,'2019-11-25 11:54:44','0000-00-00 00:00:00',20.627707,-100.424896),(584,54,1,1,'2019-11-25 10:11:38','0000-00-00 00:00:00',0.000000,0.000000),(585,54,2,0,'0000-00-00 00:00:00','0000-00-00 00:00:00',0.000000,0.000000),(586,54,3,0,'0000-00-00 00:00:00','0000-00-00 00:00:00',0.000000,0.000000),(587,54,4,0,'0000-00-00 00:00:00','0000-00-00 00:00:00',0.000000,0.000000),(588,54,5,0,'0000-00-00 00:00:00','0000-00-00 00:00:00',0.000000,0.000000),(589,54,6,0,'0000-00-00 00:00:00','0000-00-00 00:00:00',0.000000,0.000000),(590,54,7,0,'0000-00-00 00:00:00','0000-00-00 00:00:00',0.000000,0.000000),(591,54,8,0,'0000-00-00 00:00:00','0000-00-00 00:00:00',0.000000,0.000000),(592,54,9,0,'0000-00-00 00:00:00','0000-00-00 00:00:00',0.000000,0.000000),(593,54,10,0,'0000-00-00 00:00:00','0000-00-00 00:00:00',0.000000,0.000000),(594,54,11,0,'0000-00-00 00:00:00','0000-00-00 00:00:00',0.000000,0.000000),(595,55,1,2,'2019-11-25 10:21:55','2019-11-25 10:22:27',0.000000,0.000000),(596,55,2,2,'2019-11-25 10:22:27','2019-11-25 10:22:34',20.585367,-100.400002),(597,55,3,2,'2019-11-25 10:22:34','2019-11-25 10:23:05',20.585367,-100.400002),(598,55,4,2,'2019-11-25 10:23:05','2019-11-25 10:23:10',20.585356,-100.399971),(599,55,5,2,'2019-11-25 10:23:10','2019-11-25 10:23:46',20.585360,-100.399986),(600,55,6,2,'2019-11-25 10:23:46','2019-11-25 10:23:50',20.585367,-100.400002),(601,55,7,2,'2019-11-25 10:23:50','2019-11-25 10:23:55',20.585367,-100.400002),(602,55,8,2,'2019-11-25 10:23:55','2019-11-25 11:34:10',20.585348,-100.399971),(603,55,9,2,'2019-11-25 11:34:10','2019-11-25 11:34:17',20.587378,-100.399094),(604,55,10,2,'2019-11-25 11:34:17','2019-11-25 11:35:00',20.587379,-100.399094),(605,55,11,1,'2019-11-25 11:35:00','0000-00-00 00:00:00',20.587374,-100.399101),(606,56,1,2,'2019-11-25 10:48:18','2019-11-25 10:48:54',0.000000,0.000000),(607,56,2,2,'2019-11-25 10:48:54','2019-11-25 10:49:02',17.987429,-92.945030),(608,56,3,2,'2019-11-25 10:49:02','2019-11-25 10:53:05',17.987429,-92.945030),(609,56,4,2,'2019-11-25 10:53:05','2019-11-25 10:53:22',17.987429,-92.945030),(610,56,5,2,'2019-11-25 10:53:22','2019-11-25 10:53:30',17.987429,-92.945030),(611,56,6,2,'2019-11-25 10:53:30','2019-11-25 10:53:35',17.987429,-92.945030),(612,56,7,2,'2019-11-25 10:53:35','2019-11-25 10:53:41',17.987429,-92.945030),(613,56,8,2,'2019-11-25 10:53:41','2019-11-25 10:54:02',17.987429,-92.945030),(614,56,9,2,'2019-11-25 10:54:02','2019-11-25 10:54:22',17.987429,-92.945030),(615,56,10,2,'2019-11-25 10:54:22','2019-11-25 10:55:01',17.987429,-92.945030),(616,56,11,1,'2019-11-25 10:55:01','0000-00-00 00:00:00',17.999868,-92.958557),(617,57,1,2,'2019-11-25 11:13:26','2019-11-25 11:15:32',0.000000,0.000000),(618,57,2,2,'2019-11-25 11:15:32','2019-11-25 11:15:48',17.987431,-92.945030),(619,57,3,2,'2019-11-25 11:15:48','2019-11-25 11:16:06',17.987431,-92.945030),(620,57,4,2,'2019-11-25 11:16:06','2019-11-25 11:16:12',17.987431,-92.945030),(621,57,5,2,'2019-11-25 11:16:12','2019-11-25 11:16:20',17.987431,-92.945030),(622,57,6,2,'2019-11-25 11:16:20','2019-11-25 11:16:26',17.987431,-92.945030),(623,57,7,2,'2019-11-25 11:16:26','2019-11-25 11:16:31',17.987431,-92.945030),(624,57,8,2,'2019-11-25 11:16:31','2019-11-25 11:19:21',17.987431,-92.945030),(625,57,9,2,'2019-11-25 11:19:21','2019-11-25 11:19:45',17.987431,-92.945030),(626,57,10,1,'2019-11-25 11:19:45','0000-00-00 00:00:00',17.987431,-92.945030),(627,57,11,0,'0000-00-00 00:00:00','0000-00-00 00:00:00',0.000000,0.000000),(628,58,1,2,'2019-11-25 11:40:00','2019-11-25 11:40:42',0.000000,0.000000),(629,58,2,2,'2019-11-25 11:40:42','2019-11-25 11:40:47',20.586599,-100.403008),(630,58,3,2,'2019-11-25 11:40:47','2019-11-25 11:42:20',20.586786,-100.403191),(631,58,4,2,'2019-11-25 11:42:20','2019-11-25 11:42:28',20.594185,-100.406441),(632,58,5,2,'2019-11-25 11:42:28','2019-11-25 11:42:49',20.595221,-100.406898),(633,58,6,2,'2019-11-25 11:42:49','2019-11-25 11:44:24',20.595423,-100.406998),(634,58,7,2,'2019-11-25 11:44:24','2019-11-25 11:44:43',20.596603,-100.407684),(635,58,8,2,'2019-11-25 11:44:43','2019-11-25 11:45:11',20.597395,-100.408676),(636,58,9,2,'2019-11-25 11:45:11','2019-11-25 11:45:17',20.597795,-100.409348),(637,58,10,2,'2019-11-25 11:45:17','2019-11-25 11:45:23',20.598244,-100.410080),(638,58,11,1,'2019-11-25 11:45:23','0000-00-00 00:00:00',20.598318,-100.410233),(639,59,1,2,'2019-11-25 11:48:17','2019-11-25 11:59:54',0.000000,0.000000),(640,59,2,2,'2019-11-25 11:59:54','2019-11-25 12:00:00',20.684624,-100.435120),(641,59,3,2,'2019-11-25 12:00:00','2019-11-25 12:01:01',20.685711,-100.435219),(642,59,4,2,'2019-11-25 12:01:01','2019-11-25 12:01:21',20.692636,-100.435081),(643,59,5,2,'2019-11-25 12:01:21','2019-11-25 12:12:29',20.691696,-100.436600),(644,59,6,2,'2019-11-25 12:12:29','2019-11-25 12:12:33',20.690767,-100.449265),(645,59,7,2,'2019-11-25 12:12:33','2019-11-25 12:12:36',20.690767,-100.449265),(646,59,8,2,'2019-11-25 12:12:36','2019-11-25 12:12:50',20.690838,-100.449249),(647,59,9,2,'2019-11-25 12:12:50','2019-11-25 12:12:58',20.690838,-100.449249),(648,59,10,2,'2019-11-25 12:12:58','2019-11-25 12:13:08',20.690838,-100.449249),(649,59,11,1,'2019-11-25 12:13:08','0000-00-00 00:00:00',20.690840,-100.449249),(650,60,1,2,'2019-11-25 12:07:09','2019-11-25 12:08:54',0.000000,0.000000),(651,60,2,2,'2019-11-25 12:08:54','2019-11-25 12:09:01',17.987431,-92.945030),(652,60,3,2,'2019-11-25 12:09:01','2019-11-25 12:09:09',17.987431,-92.945030),(653,60,4,2,'2019-11-25 12:09:09','2019-11-25 12:09:43',17.999596,-92.948380),(654,60,5,2,'2019-11-25 12:09:43','2019-11-25 12:09:45',20.690828,-100.449265),(655,60,6,2,'2019-11-25 12:09:45','2019-11-25 12:09:49',20.690828,-100.449265),(656,60,7,2,'2019-11-25 12:09:49','2019-11-25 12:10:01',20.690828,-100.449265),(657,60,8,2,'2019-11-25 12:10:01','2019-11-25 12:10:19',20.690830,-100.449265),(658,60,9,2,'2019-11-25 12:10:19','2019-11-25 12:10:24',20.690830,-100.449265),(659,60,10,2,'2019-11-25 12:10:24','2019-11-25 12:11:16',20.690823,-100.449265),(660,60,11,1,'2019-11-25 12:11:16','0000-00-00 00:00:00',20.690838,-100.449257),(661,61,1,2,'2019-11-25 12:16:14','2019-11-25 12:16:25',0.000000,0.000000),(662,61,2,2,'2019-11-25 12:16:25','2019-11-25 12:16:30',17.987429,-92.945030),(663,61,3,2,'2019-11-25 12:16:30','2019-11-25 13:36:12',17.987429,-92.945030),(664,61,4,2,'2019-11-25 13:36:12','2019-11-25 13:36:27',20.694256,-100.444397),(665,61,5,2,'2019-11-25 13:36:27','2019-11-25 13:50:32',20.694256,-100.444397),(666,61,6,2,'2019-11-25 13:50:32','2019-11-25 14:46:30',17.987427,-92.945023),(667,61,7,2,'2019-11-25 14:46:30','2019-11-25 14:46:36',20.690731,-100.449043),(668,61,8,2,'2019-11-25 14:46:36','2019-11-25 14:46:51',20.690817,-100.448891),(669,61,9,2,'2019-11-25 14:46:51','2019-11-25 14:46:57',20.690722,-100.448868),(670,61,10,2,'2019-11-25 14:46:57','2019-11-25 14:47:02',20.690727,-100.448868),(671,61,11,1,'2019-11-25 14:47:02','0000-00-00 00:00:00',20.690720,-100.448868),(672,62,1,2,'2019-11-25 13:31:36','2019-11-25 14:50:03',0.000000,0.000000),(673,62,2,2,'2019-11-25 14:50:03','2019-11-25 15:24:50',17.987429,-92.945030),(674,62,3,2,'2019-11-25 15:24:50','2019-11-25 15:24:58',20.587330,-100.399086),(675,62,4,1,'2019-11-25 15:24:58','0000-00-00 00:00:00',20.587330,-100.399086),(676,62,5,0,'0000-00-00 00:00:00','0000-00-00 00:00:00',0.000000,0.000000),(677,62,6,0,'0000-00-00 00:00:00','0000-00-00 00:00:00',0.000000,0.000000),(678,62,7,0,'0000-00-00 00:00:00','0000-00-00 00:00:00',0.000000,0.000000),(679,62,8,0,'0000-00-00 00:00:00','0000-00-00 00:00:00',0.000000,0.000000),(680,62,9,0,'0000-00-00 00:00:00','0000-00-00 00:00:00',0.000000,0.000000),(681,62,10,0,'0000-00-00 00:00:00','0000-00-00 00:00:00',0.000000,0.000000),(682,62,11,0,'0000-00-00 00:00:00','0000-00-00 00:00:00',0.000000,0.000000),(683,63,1,1,'2019-11-27 13:14:28','0000-00-00 00:00:00',0.000000,0.000000),(684,63,2,0,'0000-00-00 00:00:00','0000-00-00 00:00:00',0.000000,0.000000),(685,63,3,0,'0000-00-00 00:00:00','0000-00-00 00:00:00',0.000000,0.000000),(686,63,4,0,'0000-00-00 00:00:00','0000-00-00 00:00:00',0.000000,0.000000),(687,63,5,0,'0000-00-00 00:00:00','0000-00-00 00:00:00',0.000000,0.000000),(688,63,6,0,'0000-00-00 00:00:00','0000-00-00 00:00:00',0.000000,0.000000),(689,63,7,0,'0000-00-00 00:00:00','0000-00-00 00:00:00',0.000000,0.000000),(690,63,8,0,'0000-00-00 00:00:00','0000-00-00 00:00:00',0.000000,0.000000),(691,63,9,0,'0000-00-00 00:00:00','0000-00-00 00:00:00',0.000000,0.000000),(692,63,10,0,'0000-00-00 00:00:00','0000-00-00 00:00:00',0.000000,0.000000),(693,63,11,0,'0000-00-00 00:00:00','0000-00-00 00:00:00',0.000000,0.000000);
+/*!40000 ALTER TABLE `services_stages` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `stages`
+--
+
+DROP TABLE IF EXISTS `stages`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `stages` (
+  `idstage` int(11) NOT NULL AUTO_INCREMENT,
+  `name_stage` varchar(45) DEFAULT NULL,
+  `enable_stage` varchar(45) DEFAULT NULL,
+  `color_stage` varchar(250) NOT NULL,
+  PRIMARY KEY (`idstage`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `stages`
+--
+
+LOCK TABLES `stages` WRITE;
+/*!40000 ALTER TABLE `stages` DISABLE KEYS */;
+INSERT INTO `stages` VALUES (1,'Registro','0','#16A085'),(2,'Surtido','0','#27AE60'),(3,'Listo para envío','0','#F4D03F'),(4,'Aviso voy a la tienda','0','#E67E22'),(5,'LLegada a la tienda','0','#5DADE2'),(6,'Pick up','0','#8E44AD'),(7,'Salida de la tienda','0','#EC7063'),(8,'Entrega al cliente','0','#CB4335'),(9,'Evidencia entregada','0','#C39BD3'),(10,'Regreso a tienda','0','#D35400'),(11,'Cierre de servicio','0','#55CF45');
+/*!40000 ALTER TABLE `stages` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `status_service`
+--
+
+DROP TABLE IF EXISTS `status_service`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `status_service` (
+  `idstatus_service` int(11) NOT NULL AUTO_INCREMENT,
+  `status_service` varchar(100) NOT NULL,
+  `color_status` varchar(50) NOT NULL,
+  PRIMARY KEY (`idstatus_service`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `status_service`
+--
+
+LOCK TABLES `status_service` WRITE;
+/*!40000 ALTER TABLE `status_service` DISABLE KEYS */;
+INSERT INTO `status_service` VALUES (1,'Iniciado','#2ECC71'),(2,'En proceso','#5DADE2'),(3,'Finalizado','#DC7633'),(4,'Cancelado','#C0392B  '),(5,'Incidente','#E62231');
+/*!40000 ALTER TABLE `status_service` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `stores`
+--
+
+DROP TABLE IF EXISTS `stores`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `stores` (
+  `idstore` int(11) NOT NULL AUTO_INCREMENT,
+  `idstate` int(11) NOT NULL,
+  `name_store` varchar(100) NOT NULL,
+  `show_store` int(11) NOT NULL DEFAULT '1',
+  `latitude_store` float(10,6) NOT NULL,
+  `longitude_store` float(10,6) NOT NULL,
+  PRIMARY KEY (`idstore`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `stores`
+--
+
+LOCK TABLES `stores` WRITE;
+/*!40000 ALTER TABLE `stores` DISABLE KEYS */;
+INSERT INTO `stores` VALUES (1,1,'Plaza Olmeca',1,17.995079,-92.943268),(2,1,'Plaza Crystal',1,17.980591,-92.939362),(3,1,'Plaza las Americas',1,18.013302,-92.919075),(4,1,'Carrizal',1,17.989088,-92.963242);
+/*!40000 ALTER TABLE `stores` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `type_actions`
+--
+
+DROP TABLE IF EXISTS `type_actions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `type_actions` (
+  `idtype_actions` int(11) NOT NULL AUTO_INCREMENT,
+  `type_actions` text NOT NULL,
+  PRIMARY KEY (`idtype_actions`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `type_actions`
+--
+
+LOCK TABLES `type_actions` WRITE;
+/*!40000 ALTER TABLE `type_actions` DISABLE KEYS */;
+INSERT INTO `type_actions` VALUES (1,'Crear servicios'),(2,'Crear consignaciones'),(3,'Enviar notificaciones'),(4,'Cambiar status del servicio');
+/*!40000 ALTER TABLE `type_actions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `type_payments`
+--
+
+DROP TABLE IF EXISTS `type_payments`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `type_payments` (
+  `idtype_payment` int(11) NOT NULL AUTO_INCREMENT,
+  `type_payment` varchar(100) NOT NULL,
+  PRIMARY KEY (`idtype_payment`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `type_payments`
+--
+
+LOCK TABLES `type_payments` WRITE;
+/*!40000 ALTER TABLE `type_payments` DISABLE KEYS */;
+INSERT INTO `type_payments` VALUES (1,'Efectivo'),(2,'Tarjeta'),(3,'Pagado');
+/*!40000 ALTER TABLE `type_payments` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `type_services`
+--
+
+DROP TABLE IF EXISTS `type_services`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `type_services` (
+  `idtype_service` int(11) NOT NULL AUTO_INCREMENT,
+  `type_service` varchar(40) NOT NULL,
+  PRIMARY KEY (`idtype_service`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `type_services`
+--
+
+LOCK TABLES `type_services` WRITE;
+/*!40000 ALTER TABLE `type_services` DISABLE KEYS */;
+INSERT INTO `type_services` VALUES (1,'Normal'),(2,'Linea blanca');
+/*!40000 ALTER TABLE `type_services` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user_notifications`
+--
+
+DROP TABLE IF EXISTS `user_notifications`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user_notifications` (
+  `iduser_notification` int(11) NOT NULL AUTO_INCREMENT,
+  `iduser` int(11) NOT NULL,
+  `idnotification` int(11) NOT NULL,
+  `status_notification` int(11) NOT NULL,
+  PRIMARY KEY (`iduser_notification`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_notifications`
+--
+
+LOCK TABLES `user_notifications` WRITE;
+/*!40000 ALTER TABLE `user_notifications` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_notifications` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user_permissions`
+--
+
+DROP TABLE IF EXISTS `user_permissions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user_permissions` (
+  `iduser_permission` int(11) NOT NULL AUTO_INCREMENT,
+  `iduser` int(11) NOT NULL,
+  `idpermission` int(11) NOT NULL,
+  `status_permission` int(11) NOT NULL,
+  PRIMARY KEY (`iduser_permission`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_permissions`
+--
+
+LOCK TABLES `user_permissions` WRITE;
+/*!40000 ALTER TABLE `user_permissions` DISABLE KEYS */;
+INSERT INTO `user_permissions` VALUES (1,1,1,1),(2,1,2,1),(3,1,3,1),(4,2,1,0),(5,2,2,0),(6,2,3,1),(7,3,1,1),(8,3,2,0),(9,3,3,1);
+/*!40000 ALTER TABLE `user_permissions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user_store`
+--
+
+DROP TABLE IF EXISTS `user_store`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user_store` (
+  `iduser_store` int(11) NOT NULL AUTO_INCREMENT,
+  `iduser` int(11) NOT NULL,
+  `idstore` int(11) NOT NULL,
+  PRIMARY KEY (`iduser_store`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_store`
+--
+
+LOCK TABLES `user_store` WRITE;
+/*!40000 ALTER TABLE `user_store` DISABLE KEYS */;
+INSERT INTO `user_store` VALUES (1,3,1),(2,5,2);
+/*!40000 ALTER TABLE `user_store` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `users` (
+  `iduser` int(11) NOT NULL AUTO_INCREMENT,
+  `idpeople` int(11) NOT NULL,
+  `idrol` int(11) NOT NULL,
+  `user` varchar(50) DEFAULT NULL,
+  `password` varchar(300) DEFAULT NULL,
+  `token` varchar(45) DEFAULT NULL,
+  `profile_picture` varchar(45) DEFAULT NULL,
+  `enable_user` int(11) DEFAULT NULL,
+  `register` datetime DEFAULT NULL,
+  PRIMARY KEY (`iduser`),
+  KEY `fk_users_peoples_idx` (`idpeople`),
+  KEY `fk_users_rols1_idx` (`idrol`),
+  CONSTRAINT `fk_users_peoples` FOREIGN KEY (`idpeople`) REFERENCES `peoples` (`idpeople`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_users_rols1` FOREIGN KEY (`idrol`) REFERENCES `rols` (`idrol`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,1,1,'agencia','a14b545a2b994c3fe0f90c2b0a21de811003a8474574b248a5c53bd736f4acbc',NULL,NULL,0,'2018-09-29 00:00:00'),(2,2,3,'adolfo','a14b545a2b994c3fe0f90c2b0a21de811003a8474574b248a5c53bd736f4acbc',NULL,'2.jpg',0,'2018-09-29 00:00:00'),(3,3,2,'olmeca','a14b545a2b994c3fe0f90c2b0a21de811003a8474574b248a5c53bd736f4acbc',NULL,NULL,0,'2018-09-29 00:00:00'),(4,4,3,'sergio','a14b545a2b994c3fe0f90c2b0a21de811003a8474574b248a5c53bd736f4acbc',NULL,'2.jpg',0,'2018-09-29 00:00:00'),(5,5,2,'cristal','a14b545a2b994c3fe0f90c2b0a21de811003a8474574b248a5c53bd736f4acbc',NULL,NULL,0,'2018-09-29 00:00:00'),(6,6,3,'julio','a14b545a2b994c3fe0f90c2b0a21de811003a8474574b248a5c53bd736f4acbc',NULL,'2.jpg',0,'2018-09-29 00:00:00');
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `versions`
+--
+
+DROP TABLE IF EXISTS `versions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `versions` (
+  `idversion` int(11) NOT NULL AUTO_INCREMENT,
+  `platform` varchar(45) DEFAULT NULL,
+  `version` varchar(45) DEFAULT NULL,
+  `url` varchar(200) DEFAULT NULL,
+  `text1` text NOT NULL,
+  `text2` text NOT NULL,
+  `text3` text NOT NULL,
+  PRIMARY KEY (`idversion`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `versions`
+--
+
+LOCK TABLES `versions` WRITE;
+/*!40000 ALTER TABLE `versions` DISABLE KEYS */;
+INSERT INTO `versions` VALUES (1,'ios','118','#','Estimado usuario para una mejor experiencia de uso, navegación y seguridad,','esta versión será liberada','el día 26 del presente mes'),(2,'android','118','#','Estimado usuario para una mejor experiencia de uso, navegación y seguridad,','esta versión será liberada','el día 26 del presente mes');
+/*!40000 ALTER TABLE `versions` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2019-11-27 23:40:24
