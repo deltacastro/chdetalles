@@ -66,7 +66,7 @@ class Servicio extends Model
         // dd($columna_id, $campo_id);
         if ($campo_id == 1) {
             // ES TIENDA
-            if ($columna_id == 0) {
+            if ($columna_id == 0 || $columna_id == 'none') {
                 $servicios = $servicios->has('userStore.store');
             } else {
                 $servicios = $servicios->whereHas('userStore.store', function (Builder $query) use($columna_id) {
@@ -76,7 +76,7 @@ class Servicio extends Model
 
         } elseif ($campo_id == 2) {
             // ESTADO
-            if ($columna_id == 0) {
+            if ($columna_id == 0 || $columna_id == 'none') {
                 $servicios = $servicios->has('userCreator');
             } else {
                 $servicios = $servicios->whereHas('userCreator', function (Builder $query) use($columna_id) {
