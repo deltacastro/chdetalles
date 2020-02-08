@@ -20,7 +20,7 @@ class ServicioExport implements FromView, ShouldAutoSize, WithEvents, WithDrawin
     {
         $this->request = $request;
         $this->mServicio = new Servicio;
-        $this->mServicio = $this->mServicio->porFechas($request);
+        $this->mServicio = $this->mServicio->porFechasObject($request);
         $this->totalHeaderRows = 2;
         $this->totalRows = $this->mServicio->count() + $this->totalHeaderRows;
     }
