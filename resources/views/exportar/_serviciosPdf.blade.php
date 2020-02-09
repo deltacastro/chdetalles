@@ -159,7 +159,7 @@
                         <td width="7%">{{$servicio->date_register->format('d-m-Y')}}</td>
                         <td width="13%">
                             <div class="truncate mw-16">
-                                {{mb_strimwidth($servicio->name_client.'lalalalalalalalalalalalalal', 0, 25, "...")}}
+                                {{mb_strimwidth($servicio->name_client, 0, 25, "...")}}
                             </div>
                         </td>
                         {{-- <td>{{$servicio->address_client}}</td> --}}
