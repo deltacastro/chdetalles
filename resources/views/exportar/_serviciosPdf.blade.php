@@ -69,6 +69,45 @@
             font-size: 30px;
         }
 
+        .truncate {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .mw-16 {
+            max-width: 118px;
+        }
+
+        .mw-30 {
+            max-width: 30px;
+        }
+
+        .mw-40 {
+            max-width: 40px;
+        }
+
+        .border-left {
+            border-left: 1px solid black;
+        }
+
+        .border-right {
+            border-right: 1px solid black;
+        }
+
+        .border-bottom {
+            border-bottom: 1px solid black;
+        }
+
+        .border-x {
+            border-right: 1px solid black;
+            border-left: 1px solid black;
+        }
+
+        .page-number {
+            color: yellow;
+        }
+
     </style>
 </head>
 
@@ -93,44 +132,55 @@
                     <tr>
                         <th colspan="1"></th>
                         <th colspan="6"></th>
-                        <th class="text-center" colspan="2">Costos</th>
-                        <th colspan="1"></th>
+                        <th class="text-center" colspan="4">Costos</th>
                     </tr>
                     <tr>
                         {{-- <th>Numero de pedido</th> --}}
-                        <th width="7%">Folio</th>
-                        <th width="16%">Cliente</th>
+                        <th class="border-bottom">Folio</th>
+                        <th class="border-bottom">Fecha</th>
+                        <th class="border-bottom">Cliente</th>
                         {{-- <th>Dirección cliente</th> --}}
-                        <th width="7%">Fecha</th>
                         {{-- <th>Descripción</th> --}}
-                        <th width="16%">Chofer</th>
-                        <th width="16%">Tienda</th>
-                        <th width="6%">Km</th>
-                        <th width="5%">Vueltas</th>
-                        <th width="7%">Base</th>
-                        <th width="7%">Vueltas</th>
-                        <th width="7%">Horario</th>
-                        <th width="7%">Total</th>
+                        <th class="border-bottom">Chofer</th>
+                        <th class="border-bottom">Tienda</th>
+                        <th class="border-bottom">Km</th>
+                        <th class="border-bottom">Vueltas</th>
+                        <th class="border-bottom text-right border-left">Base</th>
+                        <th class="border-bottom text-right">Vueltas</th>
+                        <th class="border-bottom text-right">Horario</th>
+                        <th class="border-bottom text-right">Total</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($servicios as $servicio)
                     <tr>
                         {{-- <td>{{$servicio->number_pedido}}</td> --}}
-                        <td>{{$servicio->folio}}</td>
-                        <td>{{$servicio->name_client}}</td>
+                        <td class="" width="7%">{{$servicio->folio}}</td>
+                        <td width="7%">{{$servicio->date_register->format('d-m-Y')}}</td>
+                        <td width="13%">
+                            <div class="truncate mw-16">
+                                {{mb_strimwidth($servicio->name_client.'lalalalalalalalalalalalalal', 0, 25, "...")}}
+                            </div>
+                        </td>
                         {{-- <td>{{$servicio->address_client}}</td> --}}
-                        <td>{{$servicio->date_register->format('d-m-Y')}}</td>
                         {{-- <td>{{$servicio->fechaLeible()}}</td> --}}
                         {{-- <td>{{$servicio->indications}}</td> --}}
-                        <td>{{$servicio->chofer != null ? $servicio->chofer->fullname : '*-*'}}</td>
-                        <td>{{$servicio->user->tiendas != null ? $servicio->user->tiendas[0]->name_store : '*-*'}}</td>
-                        <td class="text-right">{{$servicio->serviceDetail != null ? $servicio->serviceDetail->km : '*-*'}}</td>
-                        <td class="text-center">{{$servicio->serviceDetail != null ? $servicio->serviceDetail->vueltas : '*-*'}}</td>
-                        <td class="text-right">{{$servicio->serviceDetail != null ? $servicio->serviceDetail->costo : '*-*'}}</td>
-                        <td class="text-right">{{$servicio->serviceDetail != null ? $servicio->serviceDetail->costo_vueltas : '*-*'}}</td>
-                        <td class="text-right">{{$servicio->serviceDetail != null ? $servicio->serviceDetail->costo_penalizacion : '*-*'}}</td>
-                        <td class="text-right">{{$servicio->serviceDetail != null ? $servicio->serviceDetail->total : '*-*'}}</td>
+                        <td width="13%">
+                            <div class="truncate mw-16">
+                                {{$servicio->chofer != null ? mb_strimwidth($servicio->chofer->fullname, 0, 40, "...") : '*-*'}}
+                            </div>
+                        </td>
+                        <td width="13%">
+                            <div class="truncate mw-16">
+                                {{$servicio->user->tiendas != null ? mb_strimwidth($servicio->user->tiendas[0]->name_store, 0, 40, "...") : '*-*'}}
+                            </div>
+                        </td>
+                        <td width="6%" class="text-right">{{$servicio->serviceDetail != null ? $servicio->serviceDetail->km : '*-*'}}</td>
+                        <td width="5%" class="text-center">{{$servicio->serviceDetail != null ? $servicio->serviceDetail->vueltas : '*-*'}}</td>
+                        <td width="9%" class="text-right border-left">{{$servicio->serviceDetail != null ? $servicio->serviceDetail->costo : '*-*'}}</td>
+                        <td width="9%" class="text-right">{{$servicio->serviceDetail != null ? $servicio->serviceDetail->costo_vueltas : '*-*'}}</td>
+                        <td width="9%" class="text-right">{{$servicio->serviceDetail != null ? $servicio->serviceDetail->costo_penalizacion : '*-*'}}</td>
+                        <td width="9%" class="text-right">{{$servicio->serviceDetail != null ? $servicio->serviceDetail->total : '*-*'}}</td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -149,7 +199,7 @@
 			$width = $fontMetrics->get_text_width($text, $font, $size) / 2;
 			$x = ($pdf->get_width() - $width) / 2;
 			$y = $pdf->get_height() - 35;
-			$pdf->page_text($x, $y, $text, $font, $size);
+			$pdf->page_text($x+30, $y, $text, $font, $size, [0.52, 0.53, 0.59]);
 		}
 	</script>
 </body>
