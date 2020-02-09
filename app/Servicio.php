@@ -11,6 +11,9 @@ class Servicio extends Model
 {
     protected $table = 'services';
     protected $primarykey = 'idservice';
+    protected $dates = [
+        'date_register'
+    ];
 
     public function user()
     {
@@ -30,6 +33,11 @@ class Servicio extends Model
     public function userStore()
     {
         return $this->belongsTo(User_Tienda::class, 'iduser_creator', 'iduser');
+    }
+
+    public function serviceDetail()
+    {
+        return $this->belongsTo(Service_Detail::class, 'idservice', 'idservice');
     }
 
     public function porFechas($request)
@@ -62,7 +70,7 @@ class Servicio extends Model
         $campo_id = $request->campo_id;
         $columna_id = $request->columna_id;
 
-        $servicios = $this;
+        $servicios = $this->with('serviceDetail');
         // dd($columna_id, $campo_id);
         if ($campo_id == 1) {
             // ES TIENDA
@@ -97,6 +105,8 @@ class Servicio extends Model
         } else {
             // $reporte->all();
         }
+
+        // dd($servicios->get());
 
         return $servicios->get();
     }
