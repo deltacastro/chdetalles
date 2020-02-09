@@ -37,7 +37,7 @@ class ServicioExport implements FromView, ShouldAutoSize, WithEvents, WithDrawin
         $drawing = new Drawing();
         $drawing->setName('Logo');
         $drawing->setDescription('This is my logo');
-        $drawing->setPath(public_path('/img/logoch.png'));
+        $drawing->setPath(public_path('/img/logo.png'));
         $drawing->setHeight(90);
         $drawing->setCoordinates('A1');
         $drawing->setOffsetX(40);
@@ -49,9 +49,9 @@ class ServicioExport implements FromView, ShouldAutoSize, WithEvents, WithDrawin
         $drawing2 = new Drawing();
         $drawing2->setName('Logo2');
         $drawing2->setDescription('This is my logo2');
-        $drawing2->setPath(public_path('/img/logoch.png'));
+        $drawing2->setPath(public_path('/img/logo.png'));
         $drawing2->setHeight(90);
-        $drawing2->setCoordinates('F1');
+        $drawing2->setCoordinates('L1');
         $drawing2->setOffsetX(60);
         $drawing2->setOffsetY(15);
         // $drawing->setRotation(25);
@@ -91,13 +91,13 @@ class ServicioExport implements FromView, ShouldAutoSize, WithEvents, WithDrawin
                 $event->sheet->getDelegate()->getStyle($cellTitle)->getFont()->getColor()->setARGB('00000');
 
                 // HEADER
-                $cellRange = 'A2:I2'; // All headers
+                $cellRange = 'A2:O2'; // All headers
                 $event->sheet->getDelegate()->getStyle($cellRange)->getFont()->setSize(16);
                 $event->sheet->getDelegate()->getStyle($cellRange)->getAlignment()->setHorizontal('center');
                 $event->sheet->getDelegate()->getStyle($cellRange)->getAlignment()->setVertical('center');
 
                 // BODY
-                $cellBodyrange = "A2:I{$this->totalRows}";
+                $cellBodyrange = "A2:O{$this->totalRows}";
                 $event->sheet->getDelegate()->getStyle($cellBodyrange)->applyFromArray($styleArray);
                 // $event->sheet->getDelegate()->getStyle($cellBodyrange)->getFont()->getColor()->setARGB('FFFFFFFF');
                 $event->sheet->getDelegate()->getStyle($cellBodyrange)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
