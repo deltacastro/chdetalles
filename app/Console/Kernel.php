@@ -28,11 +28,11 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')
         //          ->hourly();
 
-        // $schedule->call(function(){
-        //     $serviciosController = new ServiciosController;
-        //     $serviciosController->guardarReporte();
-        // })->everyFiveMinutes();
-        $schedule->exec("wall 'ejectudado monthly on 4 14:54'")->everyMinute();
+        $schedule->call(function(){
+            $serviciosController = new ServiciosController;
+            $serviciosController->guardarReporte();
+        })->everyFiveMinutes();
+        // $schedule->exec("wall 'ejectudado monthly on 4 14:54'")->everyMinute();
     }
 
     /**
