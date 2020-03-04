@@ -24,6 +24,11 @@ class Custom_User extends Model
         return $this->hasMany(User_Tienda::class, 'iduser', 'iduser');
     }
 
+    public function stores()
+    {
+        return $this->belongsToMany(Tienda::class, 'user_store', 'iduser', 'idstore', 'iduser', 'idstore');
+    }
+
     public function isAdmin()
     {
         return $this->role->idrol === 1;
