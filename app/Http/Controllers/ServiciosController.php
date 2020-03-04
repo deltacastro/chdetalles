@@ -99,7 +99,7 @@ class ServiciosController extends Controller
             }
         }
 
-        $objParam = json_decode(json_encode($this->params),false);
+        return 'listo';
     }
 
     private function exportAdminFile($user)
