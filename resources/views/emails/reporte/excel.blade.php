@@ -1,12 +1,18 @@
 @component('mail::message')
 # Reporte del mes
 
+Estimado {{$user->user}}
 Se envia reporte automatico del mes.
 
-@component('mail::button', ['url' => ''])
-Descargar
-@endcomponent
+## Datos de prueba
 
+###rol: {{$user->role->rol_name}}
+
+###array de tiendas:
+```
+{!!$user->stores!!}
+```
+<br>
 Attentamente,<br>
 Chedraui a Domicilio
 @endcomponent
