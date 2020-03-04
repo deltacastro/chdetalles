@@ -78,7 +78,12 @@ class Servicio extends Model
                 $servicios = $servicios->has('userStore.store');
             } else {
                 $servicios = $servicios->whereHas('userStore.store', function (Builder $query) use($columna_id) {
-                    $query->where('idstore', $columna_id);
+                    if (is_array($columna_id)) {
+                        $query->wherein('idstore', $columna_id);
+                    } else {
+                        $query->where('idstore', $columna_id);
+                    }
+
                 });
             }
 
