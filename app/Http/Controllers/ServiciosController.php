@@ -11,6 +11,7 @@ use App\User;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
 use Dompdf\Dompdf;
+use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
@@ -81,6 +82,7 @@ class ServiciosController extends Controller
 
     public function guardarReporte()
     {
+        // dd(config('mail'));
         $today = Carbon::now()->tz('America/Mexico_City');
         // $this->params['fecha_inicio'] = $today->format('Y-m-d');
         // $this->params['fecha_fin'] = $today->addDays('10')->format('Y-m-d');
@@ -90,8 +92,10 @@ class ServiciosController extends Controller
             if ($user->isAdmin()) {
                 // dd($user->persona->email);
                 $this->exportAdminFile($user);
+                $this->sendEmail($user);
             } elseif ($user->isGerente()) {
                 $this->exportGerenteFile($user);
+                $this->sendEmail($user);
             }
         }
 

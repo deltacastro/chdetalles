@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Http\Controllers\ServiciosController;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -27,7 +28,10 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')
         //          ->hourly();
 
-        // $schedule->exec("wall 'hola'")->everyMinute();
+        $schedule->call(function(){
+            $serviciosController = new ServiciosController;
+            $serviciosController->guardarReporte();
+        })->everyFiveMinutes();
         // $schedule->exec("wall 'ejectudado monthly on 4 14:54'")->monthlyOn(4, '20:57');
     }
 
