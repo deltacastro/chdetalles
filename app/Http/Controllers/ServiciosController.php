@@ -74,9 +74,9 @@ class ServiciosController extends Controller
         return $dompdf->stream('Reporte.pdf');
     }
 
-    public function sendEmail()
+    public function sendEmail(Custom_User $user)
     {
-        $user = $this->mUser->with(['persona'])->first();
+        // $user = $this->mUser->with(['persona'])->where('iduser', 3)->first();
         Mail::to('abel.castro9111@gmail.com')->send(new ReporteGeneral($user));
     }
 
@@ -100,6 +100,13 @@ class ServiciosController extends Controller
         }
 
         return 'listo';
+    }
+
+    public function test()
+    {
+        $user = $this->mUser->with('stores')->where('iduser', 3)->get();
+        echo($user[0]->stores);
+
     }
 
     private function exportAdminFile($user)
