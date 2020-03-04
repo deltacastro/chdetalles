@@ -1,7 +1,8 @@
 @component('mail::message')
 # Reporte del mes
 
-Estimado {{$user->user}}
+## Estimado {{$user->user}}
+<br>
 Se envia reporte automatico del mes.
 
 ## Datos de prueba
