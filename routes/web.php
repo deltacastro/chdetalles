@@ -14,3 +14,13 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('mailable', function () {
+    // $invoice = App\Invoice::find(1);
+
+    return new App\Mail\ReporteGeneral();
+});
+
+Route::get('sendEmail', 'ServiciosController@sendEmail');
+
+Route::get('guardarReporte', 'ServiciosController@guardarReporte');
