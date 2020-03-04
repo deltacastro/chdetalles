@@ -26,6 +26,9 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+
+        // $schedule->exec("wall 'hola'")->everyMinute();
+        // $schedule->exec("wall 'ejectudado monthly on 4 14:54'")->monthlyOn(4, '20:57');
     }
 
     /**
@@ -39,4 +42,14 @@ class Kernel extends ConsoleKernel
 
         require base_path('routes/console.php');
     }
+
+    /**
+     * Get the timezone that should be used by default for scheduled events.
+     *
+     * @return \DateTimeZone|string|null
+     */
+    // protected function scheduleTimezone()
+    // {
+    //     return 'America/Mexico_City';
+    // }
 }
