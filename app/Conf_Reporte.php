@@ -8,4 +8,5 @@ class Conf_Reporte extends Model
 {
     protected $table = 'conf_reportes';
     protected $primaryKey = 'idconf_reportes';
+    public $timestamps = false;
 }
