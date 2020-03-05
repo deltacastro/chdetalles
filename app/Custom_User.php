@@ -9,6 +9,11 @@ class Custom_User extends Model
     protected $table = 'users';
     protected $primaryKey = 'iduser';
 
+    public function estado()
+    {
+        return $this->belongsTo(Estado::class, 'idstate', 'idstate');
+    }
+
     public function persona()
     {
         return $this->belongsTo(Persona::class, 'idpeople', 'idpeople');

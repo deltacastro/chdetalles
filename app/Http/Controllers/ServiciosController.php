@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Conf_Reporte;
 use App\Custom_User;
 use Illuminate\Http\Request;
 use App\Exports\ServicioExport;
@@ -12,6 +13,7 @@ use Carbon\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
 use Dompdf\Dompdf;
 use Illuminate\Console\Command;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
@@ -24,6 +26,7 @@ class ServiciosController extends Controller
     {
         $this->mServicio = new Servicio;
         $this->mUser = new Custom_User;
+        $this->mConfReporte = new Conf_Reporte;
         $this->params = [
             'campo_id' => null,
             'columna_id' => null,
@@ -82,11 +85,21 @@ class ServiciosController extends Controller
 
     public function guardarReporte()
     {
-        // dd(config('mail'));
         $today = Carbon::now()->tz('America/Mexico_City');
+        $today_day = $today->format('d');
         // $this->params['fecha_inicio'] = $today->format('Y-m-d');
         // $this->params['fecha_fin'] = $today->addDays('10')->format('Y-m-d');
-        $users = $this->mUser->with(['role', 'user_store', 'persona'])->get();
+        // $users = $this->mUser->with(['role', 'user_store', 'persona'])->get();
+
+        $idstates_array = $this->mConfReporte->where('dia_corte', $today_day)->get()->pluck('idstate')->toArray();
+
+        $users = $this->mUser
+            ->where(function($query) use($idstates_array){
+                $query->wherein('idstate', $idstates_array)
+                    ->orwhere('idrol', 1);
+            })
+            ->with(['role', 'user_store', 'persona'])
+            ->get();
 
         foreach ($users as $user) {
             if ($user->isAdmin()) {
@@ -99,7 +112,7 @@ class ServiciosController extends Controller
             }
         }
 
-        return 'listo';
+        return 'ok';
     }
 
     public function test()
