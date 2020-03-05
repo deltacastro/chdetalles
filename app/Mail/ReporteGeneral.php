@@ -44,7 +44,7 @@ class ReporteGeneral extends Mailable
 
         return $this->from('soyunrobot@servicioschedraui.tobecorporativo.mx', 'Notificaciones')
                     ->markdown('emails.reporte.excel')
-                    ->attachFromStorage($path, 'reporte2.xlsx', [
+                    ->attachFromStorage($path, 'reporte_serv.xlsx', [
                         'mime' => 'application/vnd.ms-excel'
                     ]);
     }
