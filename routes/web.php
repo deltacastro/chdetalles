@@ -22,5 +22,8 @@ Route::get('mailable', function () {
 });
 
 Route::get('sendEmail', 'ServiciosController@sendEmail');
+Route::get('testEmail', 'ServiciosController@sendEmail2');
 
 Route::get('guardarReporte', 'ServiciosController@guardarReporte');
+
+Route::get('relationship', 'ServiciosController@test');
