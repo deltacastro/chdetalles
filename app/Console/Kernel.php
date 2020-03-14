@@ -31,7 +31,7 @@ class Kernel extends ConsoleKernel
         $schedule->call(function(){
             $serviciosController = new ServiciosController;
             $serviciosController->guardarReporte();
-        })->everyFiveMinutes();
+        })->daily();
         // $schedule->exec("wall 'ejectudado monthly on 4 14:54'")->everyMinute();
     }
 
