@@ -42,7 +42,7 @@ class ReporteGeneral extends Mailable
         // $path = "{$storage_path}/app/exportar/{$user->iduser}/servicios.xls";
         // $file_path = '';
 
-        return $this->from('soyunrobot@servicioschedraui.tobecorporativo.mx', 'Notificaciones')
+        return $this->from('noresponder@servicioschedraui.tobecorporativo.mx', 'Notificaciones')
                     ->markdown('emails.reporte.excel')
                     ->attachFromStorage($path, 'reporte_serv.xlsx', [
                         'mime' => 'application/vnd.ms-excel'
