@@ -88,6 +88,12 @@ class ServiciosController extends Controller
         Mail::to('abel.castro9111@gmail.com')->send(new ReporteGeneral($user));
     }
 
+    public function sendEmail2()
+    {
+        $user = $this->mUser->with(['persona'])->where('iduser', 1)->first();
+        Mail::to(['abel.castro9111@gmail.com'])->send(new ReporteGeneral($user));
+    }
+
     public function guardarReporte()
     {
         $today = Carbon::now()->tz('America/Mexico_City');
@@ -112,7 +118,7 @@ class ServiciosController extends Controller
                 $this->params['fecha_inicio'] = null;
                 $this->params['fecha_fin'] = null;
                 // dd($user->persona->email);
-                $this->exportAdminFile($user);
+                // $this->exportAdminFile($user);
                 // $this->sendEmail($user);
             } elseif ($user->isGerente()) {
                 $this->params['fecha_fin'] = $fecha_fin;
