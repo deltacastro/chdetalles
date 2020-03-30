@@ -5,14 +5,14 @@
 <br>
 Se envia reporte automatico del mes.
 
-## Datos de prueba
+{{-- ## Datos de prueba
 
-###rol: {{$user->role->rol_name}}
+###rol: {{$user->role->rol_name}} --}}
 
-###array de tiendas:
+{{-- ###array de tiendas:
 ```
 {!!$user->stores!!}
-```
+``` --}}
 <br>
 Attentamente,<br>
 Chedraui a Domicilio
