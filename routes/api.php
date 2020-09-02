@@ -21,3 +21,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/servicios/exportar', 'ServiciosController@exportar');
+Route::get('/servicios/exportar/general', 'ServiciosController@exportarGeneral');
+Route::get('/servicios/exportar/tienda', 'ServiciosController@exportarTienda');

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Conf_Reporte;
 use App\Custom_User;
+use App\Exports\ReporteGeneralExport;
+use App\Exports\ReporteTiendaExport;
 use Illuminate\Http\Request;
 use App\Exports\ServicioExport;
 use App\Mail\ReporteGeneral;
@@ -50,6 +52,52 @@ class ServiciosController extends Controller
 
         if ($request->tipo_archivo == 'excel') {
             $file = $this->getExcel($request);
+        } elseif ($request->tipo_archivo == 'pdf') {
+            $file = $this->getPdf($request);
+        }
+
+        return $file;
+    }
+
+    public function exportarGeneral(Request $request)
+    {
+        $file = null;
+
+        $user = $this->mUser->find($request->parameterv);
+
+        if ($user->isGerente()) {
+            $this->params['fecha_inicio'] = $request->fecha_inicio;
+            $this->params['fecha_fin'] = $request->fecha_fin;
+            $this->params['campo_id'] = 1;
+            $this->params['columna_id'] = $user->user_store->pluck('idstore')->toArray();
+        }
+
+        if ($request->tipo_archivo == 'excel') {
+            // $file = $this->getExcel($request);
+            $file = Excel::download(new ReporteGeneralExport($request), 'reporte general.xlsx');
+        } elseif ($request->tipo_archivo == 'pdf') {
+            $file = $this->getPdf($request);
+        }
+
+        return $file;
+    }
+
+    public function exportarTienda(Request $request)
+    {
+        $file = null;
+
+        $user = $this->mUser->find($request->parameterv);
+
+        if ($user->isGerente()) {
+            $this->params['fecha_inicio'] = $request->fecha_inicio;
+            $this->params['fecha_fin'] = $request->fecha_fin;
+            $this->params['campo_id'] = 1;
+            $this->params['columna_id'] = $user->user_store->pluck('idstore')->toArray();
+        }
+
+        if ($request->tipo_archivo == 'excel') {
+            // $file = $this->getExcel($request);
+            $file = Excel::download(new ReporteTiendaExport($request), 'reporte general.xlsx');
         } elseif ($request->tipo_archivo == 'pdf') {
             $file = $this->getPdf($request);
         }

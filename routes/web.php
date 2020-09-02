@@ -25,5 +25,6 @@ Route::get('sendEmail', 'ServiciosController@sendEmail');
 Route::get('testEmail', 'ServiciosController@sendEmail2');
 
 Route::get('guardarReporte', 'ServiciosController@guardarReporte');
+Route::get('downloadReporte', 'ServiciosController@exportar');
 
 Route::get('relationship', 'ServiciosController@test');
