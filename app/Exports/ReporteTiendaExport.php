@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Servicio;
+use App\Tienda;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
@@ -21,6 +22,7 @@ class ReporteTiendaExport implements FromView, ShouldAutoSize, WithEvents
         $this->request = $request;
         $this->mServicio = new Servicio;
         $this->mServicio = $this->mServicio->porFechasObject($request);
+        $this->mTienda = Tienda::find($request->columna_id);
         $this->totalHeaderRows = 3;
         $this->totalRows = $this->mServicio->count() + $this->totalHeaderRows;
     }
@@ -28,7 +30,8 @@ class ReporteTiendaExport implements FromView, ShouldAutoSize, WithEvents
     public function view(): View
     {
         return view('exportar.excel._tienda', [
-            'servicios' => $this->mServicio
+            'servicios' => $this->mServicio,
+            'tienda' => $this->mTienda
         ]);
     }
 

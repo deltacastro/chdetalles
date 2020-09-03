@@ -78,15 +78,24 @@ class Fechas
         return $datereturn;
     }
 
-    public function nueva($date = null, Bool $human = null)
+    public function nueva($date = null, Bool $human = null, $dayName = false, $time = false)
     {
         $date = is_string($date) ? new Carbon($date) : $date;
         $human = $human === null ? false : $human;
         $datereturn = $date;
         if ($human == true) {
-            $datereturn = $this->readHuman($date, true, true);
+            $datereturn = $this->readHuman($date, $human, $dayName, $time);
         }
         return $datereturn;
+    }
+
+    public function nuevaHora($date)
+    {
+        $date = is_string($date) ? new Carbon($date) : $date;
+        $hora = $date->format('h');
+        $minuto = $date->format('i');
+        $meridiem = $date->meridiem;
+        return "$hora:$minuto $meridiem";
     }
 
     public function customDate()

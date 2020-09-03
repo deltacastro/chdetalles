@@ -5,7 +5,7 @@
         </tr>
         <tr>
             <th>Número de sucursal</th>
-            <th>6</th>
+            <th>{{ $tienda->num_tienda }}</th>
         </tr>
         <tr>
             <th>Fecha</th>
@@ -29,7 +29,7 @@
         @foreach ($servicios as $servicio)
         <tr>
             <td>{{$servicio->fechaLeible()}}</td>
-            <td>{{$servicio->fechaLeible()}}</td>
+            <td>{{$servicio->horaLeible()}}</td>
             <td>{{$servicio->consignacion}}</td>
             <td>Taxi</td>
             <td>{{$servicio->address_client}}</td>

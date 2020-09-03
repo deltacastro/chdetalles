@@ -70,7 +70,7 @@ class Servicio extends Model
         $campo_id = $request->campo_id;
         $columna_id = $request->columna_id;
 
-        $servicios = $this->with('serviceDetail');
+        $servicios = $this->with(['serviceDetail', 'userStore.store']);
         // dd($columna_id, $campo_id);
         if ($campo_id == 1) {
             // ES TIENDA
@@ -113,7 +113,7 @@ class Servicio extends Model
 
         // dd($servicios->get());
 
-        return $servicios->get();
+        return $servicios->orderBy('date_register', 'DESC')->get();
     }
 
     public function porTienda($request)
@@ -144,6 +144,12 @@ class Servicio extends Model
     {
         $fecha = new Fechas;
         return $fecha->nueva($this->date_register, true);
+    }
+
+    public function horaLeible()
+    {
+        $fecha = new Fechas;
+        return $fecha->nuevaHora($this->date_register, true);
     }
 
 }
