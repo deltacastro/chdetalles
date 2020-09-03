@@ -97,7 +97,11 @@ class ServiciosController extends Controller
 
         if ($request->tipo_archivo == 'excel') {
             // $file = $this->getExcel($request);
-            $file = Excel::download(new ReporteTiendaExport($request), 'reporte general.xlsx');
+            if ($request->campo_id == 1) {
+                $file = Excel::download(new ReporteTiendaExport($request), 'reporte sucursal.xlsx');
+            } else {
+                $file = Excel::download(new ReporteGeneralExport($request), 'reporte general.xlsx');
+            }
         } elseif ($request->tipo_archivo == 'pdf') {
             $file = $this->getPdf($request);
         }
