@@ -298,7 +298,8 @@ class ServiciosController extends Controller
                 'tienda' => $tienda->name_store,
             ];
             Excel::store(new ReporteTiendaAutoExport($data), "/exportar/tienda/{$data['tienda']}/servicios-{$data['fecha_inicio']}.xlsx");
-            Mail::to(['sandraasantiago@live.com.mx', 'abel.castro9111@gmail.com', 'abelcastro@tobe.mx'])->send(new ReporteTienda($data));
+            // Mail::to(['sandraasantiago@live.com.mx', 'abelcastro@tobe.mx', 'admfacturas.pedidosbibbib@gmail.com'])->send(new ReporteTienda($data));
+            Mail::to(['abelcastro@tobe.mx'])->send(new ReporteTienda($data));
         }
     }
 
@@ -331,7 +332,8 @@ class ServiciosController extends Controller
                 'estado' => $estado->nombre,
             ];
             Excel::store(new ChoferesExport($data), "/exportar/choferes/{$data['estado']}/choferes-{$data['fecha_inicio']}.xlsx");
-            Mail::to(['sandraasantiago@live.com.mx', 'abel.castro9111@gmail.com', 'abelcastro@tobe.mx'])->send(new ReporteChofer($data));
+            // Mail::to(['sandraasantiago@live.com.mx', 'abelcastro@tobe.mx', 'integradorahome@gmail.com'])->send(new ReporteChofer($data));
+            Mail::to(['abelcastro@tobe.mx'])->send(new ReporteChofer($data));
         }
     }
 
