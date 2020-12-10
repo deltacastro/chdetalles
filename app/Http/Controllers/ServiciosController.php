@@ -4,12 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Conf_Reporte;
 use App\Custom_User;
+use App\Estado;
+use App\Exports\ChoferesExport;
 use App\Exports\ReporteGeneralExport;
+use App\Exports\ReporteTiendaAutoExport;
 use App\Exports\ReporteTiendaExport;
 use Illuminate\Http\Request;
 use App\Exports\ServicioExport;
+use App\Mail\ReporteChofer;
 use App\Mail\ReporteGeneral;
+use App\Mail\ReporteTienda;
 use App\Servicio;
+use App\Tienda;
 use App\User;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
@@ -103,7 +109,12 @@ class ServiciosController extends Controller
                 $file = Excel::download(new ReporteGeneralExport($request), 'reporte general.xlsx');
             }
         } elseif ($request->tipo_archivo == 'pdf') {
-            $file = $this->getPdf($request);
+            if ($request->campo_id == 1) {
+                $file = $this->getTiendaPdf($request, 'exportar.pdf._tienda');
+            } else {
+                $file = $this->getPdf($request);
+            }
+            // $file = Excel::download(new ReporteTiendaExport($request), 'reporte general.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
         }
 
         return $file;
@@ -114,15 +125,63 @@ class ServiciosController extends Controller
         return Excel::download(new ServicioExport($request), 'servicios.xlsx');
     }
 
-    private function getPdf(Request $request)
+    private function getExcelChoferes(Request $request)
+    {
+        return Excel::download(new ServicioExport($request), 'servicios.xlsx');
+    }
+
+    private function getTiendaPdf(Request $request, $view = 'exportar._serviciosPdf')
     {
         $pathimg = public_path('/img/logo.png');
         // $pathimg = 'http://servicioschedraui.tobecorporativo.mx/admin/img/appicon.png';
         $servicios = $this->mServicio->porFechasObject($request);
+        $tienda = Tienda::find($request->columna_id);
         // return view('exportar._serviciosPdf', compact('servicios', 'pathimg'));
         $dompdf = new Dompdf();
         $dompdf->set_option("enable_php", true);
-        $dompdf->loadHtml(view('exportar._serviciosPdf', compact('servicios', 'pathimg')));
+        $dompdf->loadHtml(view($view, compact('servicios', 'pathimg', 'tienda')));
+
+        // (Optional) Setup the paper size and orientation
+        $dompdf->setPaper('A4', 'landscape');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser
+        return $dompdf->stream('Reporte.pdf');
+    }
+
+    private function getPdf(Request $request, $view = 'exportar._serviciosPdf')
+    {
+        $pathimg = public_path('/img/logo.png');
+        // $pathimg = 'http://servicioschedraui.tobecorporativo.mx/admin/img/appicon.png';
+        $servicios = $this->mServicio->porFechasObject($request);
+        $tienda = Tienda::find();
+        // return view('exportar._serviciosPdf', compact('servicios', 'pathimg'));
+        $dompdf = new Dompdf();
+        $dompdf->set_option("enable_php", true);
+        $dompdf->loadHtml(view($view, compact('servicios', 'pathimg')));
+
+        // (Optional) Setup the paper size and orientation
+        $dompdf->setPaper('A4', 'landscape');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser
+        return $dompdf->stream('Reporte.pdf');
+    }
+
+    private function getPdfChoferes(Request $request, $view = 'exportar._serviciosPdf')
+    {
+        $pathimg = public_path('/img/logo.png');
+        // $pathimg = 'http://servicioschedraui.tobecorporativo.mx/admin/img/appicon.png';
+        $servicios = $this->mServicio->porFechasObject($request);
+        $tienda = Tienda::find();
+        // return view('exportar._serviciosPdf', compact('servicios', 'pathimg'));
+        $dompdf = new Dompdf();
+        $dompdf->set_option("enable_php", true);
+        $dompdf->loadHtml(view($view, compact('servicios', 'pathimg')));
 
         // (Optional) Setup the paper size and orientation
         $dompdf->setPaper('A4', 'landscape');
@@ -208,5 +267,77 @@ class ServiciosController extends Controller
         $this->params['columna_id'] = $user->user_store->pluck('idstore')->toArray();
         $objParam = json_decode(json_encode($this->params),false);
         Excel::store(new ServicioExport($objParam), "/exportar/{$user->iduser}/servicios.xlsx");
+    }
+
+    public function reporteTienda(Request $request)
+    {
+        $data = [
+            'fecha_inicio' => $request->fecha_inicio,
+            'fecha_fin' => $request->fecha_fin,
+            'tienda_id' => $request->tienda_id
+        ];
+
+        $this->guardarReporteTienda();
+        // dd($data);
+        // $file = null;
+        // $file = Excel::download(new ReporteTiendaAutoExport($data), 'reporte sucursal.xlsx');
+        // return $file;
+    }
+
+    public function guardarReporteTienda()
+    {
+        $today = Carbon::now()->tz('America/Mexico_City')->format('Y-m-d');
+        $tiendas = Tienda::where('idstate', 3)->get();
+
+        foreach ($tiendas as $tienda)
+        {
+            $data = [
+                'fecha_inicio' => '2020-12-09',
+                'tienda_id' => $tienda->idstore,
+                'fecha_fin' => $today,
+                'tienda' => $tienda->name_store,
+            ];
+            Excel::store(new ReporteTiendaAutoExport($data), "/exportar/tienda/{$data['tienda']}/servicios-{$data['fecha_inicio']}.xlsx");
+            Mail::to(['sandraasantiago@live.com.mx', 'abel.castro9111@gmail.com', 'abelcastro@tobe.mx'])->send(new ReporteTienda($data));
+        }
+    }
+
+    public function exportarChoferes(Request $request)
+    {
+        $data = [
+            'fecha_inicio' => $request->fecha_inicio,
+            'fecha_fin' => $request->fecha_fin,
+            'estado_id' => $request->estado_id
+        ];
+
+        $this->guardarReporteChoferes();
+        // dd($data);
+        // $file = null;
+        // $file = Excel::download(new ChoferesExport($data), 'reporte choferes.xlsx');
+        // return $file;
+    }
+
+    public function guardarReporteChoferes()
+    {
+        $today = Carbon::now()->tz('America/Mexico_City')->format('Y-m-d');
+        $estados = Estado::where('idstate', 3)->get();
+
+        foreach ($estados as $estado)
+        {
+            $data = [
+                'fecha_inicio' => '2020-12-05',
+                'estado_id' => $estado->idstate,
+                'fecha_fin' => $today,
+                'estado' => $estado->nombre,
+            ];
+            Excel::store(new ChoferesExport($data), "/exportar/choferes/{$data['estado']}/choferes-{$data['fecha_inicio']}.xlsx");
+            Mail::to(['sandraasantiago@live.com.mx', 'abel.castro9111@gmail.com', 'abelcastro@tobe.mx'])->send(new ReporteChofer($data));
+        }
+    }
+
+    public function enviarReportes()
+    {
+        $this->guardarReporteChoferes();
+        $this->guardarReporteTienda();
     }
 }

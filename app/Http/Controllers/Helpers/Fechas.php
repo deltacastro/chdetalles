@@ -78,13 +78,13 @@ class Fechas
         return $datereturn;
     }
 
-    public function nueva($date = null, Bool $human = null, $dayName = false, $time = false)
+    public function nueva($date = null, Bool $human = null, $dayName = null, $time = false)
     {
         $date = is_string($date) ? new Carbon($date) : $date;
         $human = $human === null ? false : $human;
         $datereturn = $date;
         if ($human == true) {
-            $datereturn = $this->readHuman($date, $human, $dayName, $time);
+            $datereturn = $this->readHuman($date, $dayName, $time);
         }
         return $datereturn;
     }

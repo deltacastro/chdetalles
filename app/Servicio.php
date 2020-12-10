@@ -27,7 +27,12 @@ class Servicio extends Model
 
     public function chofer()
     {
-        return $this->belongsTo(Persona::class, 'iduser_driver', 'idpeople');
+        return $this->belongsTo(UserCustom::class, 'iduser_driver', 'iduser');
+    }
+
+    public function userDriver()
+    {
+        return $this->belongsTo(UserCustom::class, 'iduser_driver', 'iduser');
     }
 
     public function userStore()
@@ -61,6 +66,70 @@ class Servicio extends Model
         }
 
         return $servicios->get();
+    }
+
+    public function porFechasObjectTienda($data)
+    {
+        $fecha_inicio = $data['fecha_inicio'];
+        $fecha_fin = $data['fecha_fin'];
+        $tienda_id = $data['tienda_id'];
+
+        $servicios = $this->with(['serviceDetail', 'userStore.store']);
+
+        $servicios = $servicios->whereHas('userStore.store', function (Builder $query) use($tienda_id) {
+            if (is_array($tienda_id)) {
+                $query->wherein('idstore', $tienda_id);
+            } else {
+                $query->where('idstore', $tienda_id);
+            }
+
+        });
+
+        // dd($servicios->get());
+
+        if ($fecha_inicio != null && $fecha_fin != null ) {
+            $fecha_inicio = Carbon::parse($data['fecha_inicio'])->format('Y-m-d');
+            $fecha_fin = Carbon::parse($data['fecha_fin'])->addDay()->format('Y-m-d');
+            $servicios = $servicios->whereBetween('date_register', [$fecha_inicio, $fecha_fin]);
+        } elseif ($fecha_inicio != null) {
+            $fecha_inicio = Carbon::parse($data['fecha_inicio'])->format('Y-m-d');
+            $servicios = $servicios->whereDate('date_register', $fecha_inicio);
+        } elseif ($fecha_fin != null) {
+            $reporte = $servicios->where('date_register', '<=', $fecha_fin)->get();
+        } else {
+            // $reporte->all();
+        }
+
+
+        return $servicios->orderBy('date_register', 'DESC')->get();
+    }
+
+    public function porFechasObjectChofer($data)
+    {
+        $fecha_inicio = $data['fecha_inicio'];
+        $fecha_fin = $data['fecha_fin'];
+        $estado_id = $data['estado_id'];
+
+        $servicios = $this->with(['serviceDetail', 'userStore.store', 'chofer.people']);
+
+        $servicios = $servicios->whereHas('userCreator', function (Builder $query) use($estado_id) {
+            $query->where('idstate', $estado_id);
+        })->where('status_service', 3);
+
+        if ($fecha_inicio != null && $fecha_fin != null ) {
+            $fecha_inicio = Carbon::parse($data['fecha_inicio'])->format('Y-m-d');
+            $fecha_fin = Carbon::parse($data['fecha_fin'])->addDay()->format('Y-m-d');
+            $servicios = $servicios->whereBetween('date_register', [$fecha_inicio, $fecha_fin]);
+        } elseif ($fecha_inicio != null) {
+            $fecha_inicio = Carbon::parse($data['fecha_inicio'])->format('Y-m-d');
+            $servicios = $servicios->whereDate('date_register', $fecha_inicio);
+        } elseif ($fecha_fin != null) {
+            $reporte = $servicios->where('date_register', '<=', $fecha_fin)->get();
+        } else {
+            // $reporte->all();
+        }
+
+        return $servicios->orderBy('date_register', 'DESC')->get();
     }
 
     public function porFechasObject($request)

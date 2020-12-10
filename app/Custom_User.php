@@ -53,4 +53,9 @@ class Custom_User extends Model
     {
         return $this->role->idrol === 4;
     }
+
+    public function choferServices()
+    {
+        return $this->hasMany(Servicio::class, 'iduser_driver', 'iduser');
+    }
 }

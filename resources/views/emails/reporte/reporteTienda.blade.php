@@ -1,9 +1,7 @@
 @component('mail::message')
-# Reporte del mes
-
-## Hola
+# Reporte diario {{$data['tienda']}}
 <br>
-Se envia reporte automatico del mes.
+Se envía reporte automatico diario de servicios.
 
 {{-- ## Datos de prueba
 
