@@ -292,7 +292,7 @@ class ServiciosController extends Controller
         foreach ($tiendas as $tienda)
         {
             $data = [
-                'fecha_inicio' => '2020-12-09',
+                'fecha_inicio' => $today,
                 'tienda_id' => $tienda->idstore,
                 'fecha_fin' => $today,
                 'tienda' => $tienda->name_store,
@@ -326,7 +326,7 @@ class ServiciosController extends Controller
         foreach ($estados as $estado)
         {
             $data = [
-                'fecha_inicio' => '2020-12-05',
+                'fecha_inicio' => $today,
                 'estado_id' => $estado->idstate,
                 'fecha_fin' => $today,
                 'estado' => $estado->nombre,
