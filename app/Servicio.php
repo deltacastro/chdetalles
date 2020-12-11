@@ -83,7 +83,7 @@ class Servicio extends Model
                 $query->where('idstore', $tienda_id);
             }
 
-        });
+        })->where('status_service', 3);
 
         // dd($servicios->get());
 
